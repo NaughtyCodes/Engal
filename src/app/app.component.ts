@@ -1,16 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import * as d3 from 'd3';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ngapp11';
-
   numbers: any;
   tamilNumbers: any = '';
-  tnNumbers = ['௦', '௧', '௨', '௩', '௪', '௫', '௬', '௭', '௮', '௯', '௰'];
+  tnNumbers: string[] = [];
+
+  constructor() {
+    this.initTamilNumbers();
+    this.tnNumbers.forEach((c) => {
+      console.log(c);
+    });
+
+    console.log(this.tnNumbers);
+  }
+
+  ngOnInit(): void {
+    d3.selectAll('#d3Square')
+      .on('mouseover', function () {
+        d3.select(this).style('background-color', 'orange');
+
+        // Get current event info
+        //console.log(d3.);
+
+        // Get x & y co-ordinates
+        console.log(d3.pointer(this));
+      })
+      .on('mouseout', function () {
+        d3.select(this).style('background-color', 'steelblue');
+      });
+  }
+
+  initTamilNumbers() {
+    let unicode = 3046;
+    let stringRef = '';
+    for (let i = 0; i <= 10; i++) {
+      this.tnNumbers.push(String.fromCharCode(unicode + i));
+    }
+  }
 
   numToTamil($event: any) {
     let num = +$event.key;
