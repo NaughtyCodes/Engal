@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
+import { svg } from 'd3';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,66 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    var data = [5, 10, 12];
+    var width = 200,
+      scaleFactor = 10,
+      barHeight = 20;
+
+    var graph = d3
+      .select('body')
+      .append('svg')
+      .attr('width', width)
+      .attr('height', barHeight * data.length);
+
+    var bar = graph
+      .selectAll('g')
+      .data(data)
+      .enter()
+      .append('g')
+      .attr('transform', function (d, i) {
+        return 'translate(0,' + i * barHeight + ')';
+      });
+
+    bar
+      .append('rect')
+      .attr('width', function (d) {
+        return d * scaleFactor;
+      })
+      .attr('height', barHeight - 1);
+
+    bar
+      .append('text')
+      .attr('x', function (d) {
+        return d * scaleFactor;
+      })
+      .attr('y', barHeight / 2)
+      .attr('dy', '.35em')
+      .text(function (d) {
+        return d;
+      });
+
+    // let svg = d3
+    //   .select('body')
+    //   .append('svg')
+    //   .attr('width', 500)
+    //   .attr('height', 500);
+
+    // let bar1 = svg
+    //   .append('rect')
+    //   .attr('fill', 'blue')
+    //   .attr('x', 100)
+    //   .attr('y', 20)
+    //   .attr('height', 20)
+    //   .attr('width', 10);
+
+    // let bar2 = svg
+    //   .append('rect')
+    //   .attr('fill', 'blue')
+    //   .attr('x', 120)
+    //   .attr('y', 20)
+    //   .attr('height', 20)
+    //   .attr('width', 10);
+
     d3.selectAll('#d3Square')
       .on('mouseover', function () {
         d3.select(this).style('background-color', 'orange');

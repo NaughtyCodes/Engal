@@ -6,3 +6,22 @@
 //   src: url(assets/fonts/Baloo_Thambi_2/BalooThambi2-Medium.ttf)
 //     format("truetype");
 // }
+
+//Engal
+.displayTn {
+  font-family: "Baloo Thambi 2", cursive;
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: 8px;
+}
+
+// d3 style
+svg rect {
+  fill: orange;
+}
+
+svg text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
