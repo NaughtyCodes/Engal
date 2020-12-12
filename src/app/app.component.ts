@@ -8,6 +8,7 @@ import * as d3 from 'd3';
 })
 export class AppComponent implements OnInit {
   title = 'ngapp11';
+
   numbers: any;
   tamilNumbers: any = '';
   tnNumbers: string[] = [];
