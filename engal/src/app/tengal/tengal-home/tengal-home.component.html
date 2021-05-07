@@ -1,0 +1,34 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <h1 class="tn">௦ ௧ ௨ ௩ ௪ ௫ ௬ ௭ ௮ ௯ ௰</h1>
+    </div>
+
+    <div class="row">
+        <label for="numbers" class="form-label">Enter Numbers</label>
+        <input type="email" class="form-control" id="numbers" placeholder="" (keyup)="numToTamil($event)" />{{ numbers
+        }}
+    </div>
+
+    <div class="row">
+        <label for="tamilNumbers" class="form-label">Equalent Numbers in TAMIL</label>
+    </div>
+
+    <div class="row">
+        <label class="displayTn">{{ tamilNumbers }}</label>
+    </div>
+
+    <div class="row" id="arrow">
+        <h3 for="tamilNumbers" class="">Arrow</h3>
+        <div class="arrow">
+            <div class="line"></div>
+            <div class="point"></div>
+        </div>
+    </div>
+
+    <div class="row" id="square">
+        <h3 for="tamilNumbers" class="">square</h3>
+        <div class="d3Square"></div>
+    </div>
+
+</div>
