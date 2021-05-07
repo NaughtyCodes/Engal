@@ -23,7 +23,7 @@ export class StxpoHomeComponent implements OnInit {
       field: 'schemeName',
       headerName: 'Fund Name',
       filter: 'agTextColumnFilter',
-      //floatingFilter: true,
+      floatingFilter: true,
     },
   ];
 

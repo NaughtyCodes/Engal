@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: './tengal/tengal.module#TengalModule',
+    loadChildren: './stxpo/stxpo.module#StxpoModule',
   },
   {
     path: 'tengal',
