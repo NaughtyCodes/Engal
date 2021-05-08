@@ -11,21 +11,39 @@ export class StxpoHomeComponent implements OnInit {
   private gridApi: any;
   private gridColumnApi: any;
   rowData: [] = [];
+  rowHeight = 120;
+
   columnDefs = [
     {
       field: 'schemeCode',
       headerName: 'Fund Id',
-      width: '20px',
-      filter: 'agNumberColumnFilter',
+      filter: 'agTextColumnFilter',
       floatingFilter: true,
+      cellStyle: {},
     },
     {
       field: 'schemeName',
       headerName: 'Fund Name',
       filter: 'agTextColumnFilter',
       floatingFilter: true,
+      wrapText: true,
+      cellStyle: { 'white-space': 'normal !important' },
     },
   ];
+
+  defaultColDef = {
+    width: 170,
+    sortable: false,
+    editable: false,
+    resizable: false,
+    filter: true,
+    //    wrapText: true,
+    //    autoHeight: true,
+  };
+
+  gridOptions = {
+    defaultColDef: this.defaultColDef,
+  };
 
   constructor(private fetchMutualFundService: FetchMutualFundService) {
     this.getFundsName();
