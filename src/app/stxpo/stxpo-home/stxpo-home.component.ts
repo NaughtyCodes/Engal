@@ -1,4 +1,6 @@
+import { getInterpolationArgsLength } from '@angular/compiler/src/render3/view/util';
 import { Component, OnInit } from '@angular/core';
+import { DragAndDropService } from 'ag-grid-community';
 import { FundName } from '../models/fund-name';
 import { FetchMutualFundService } from '../services/FetchMutualFundService';
 
@@ -11,7 +13,7 @@ export class StxpoHomeComponent implements OnInit {
   private gridApi: any;
   private gridColumnApi: any;
   rowData: [] = [];
-  rowHeight = 120;
+  rowHeight: number | undefined;
 
   columnDefs = [
     {
@@ -26,8 +28,7 @@ export class StxpoHomeComponent implements OnInit {
       headerName: 'Fund Name',
       filter: 'agTextColumnFilter',
       floatingFilter: true,
-      wrapText: true,
-      cellStyle: { 'white-space': 'normal !important' },
+      //wrapText: true,
     },
   ];
 
@@ -37,6 +38,7 @@ export class StxpoHomeComponent implements OnInit {
     editable: false,
     resizable: false,
     filter: true,
+    cellStyle: { 'white-space': 'normal !important', 'line-height': '1.5em' },
     //    wrapText: true,
     //    autoHeight: true,
   };
@@ -58,11 +60,25 @@ export class StxpoHomeComponent implements OnInit {
     this.fetchMutualFundService.getFundNames().subscribe(
       (data) => {
         this.rowData = data;
+        this.rowHeight = this.setRowHeightByField(data, 'schemeName') / 1.8;
         this.gridApi.sizeColumnsToFit();
       },
       (error) => {
         console.log(error);
       }
     );
+  }
+
+  setRowHeightByField(rdata: any, fieldName: string) {
+    let l = 0;
+    let maxLength;
+    for (var i = 0; i < rdata.length; i++) {
+      if (rdata[i][fieldName].length > l) {
+        l = rdata[i][fieldName].length;
+        maxLength = rdata[i][fieldName].length;
+      }
+    }
+    console.log(maxLength);
+    return maxLength;
   }
 }
