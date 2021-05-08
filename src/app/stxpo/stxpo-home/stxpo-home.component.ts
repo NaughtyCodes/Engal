@@ -41,9 +41,7 @@ export class StxpoHomeComponent implements OnInit {
     //    autoHeight: true,
   };
 
-  gridOptions = {
-    defaultColDef: this.defaultColDef,
-  };
+  gridOptions = {};
 
   constructor(private fetchMutualFundService: FetchMutualFundService) {
     this.getFundsName();
