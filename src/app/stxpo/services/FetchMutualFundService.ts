@@ -12,9 +12,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class FetchMutualFundService {
-  //public static GetFundNameUrl = 'https://api.mfapi.in/mf';
+  public static GetFundNameUrl = 'https://api.mfapi.in/mf';
   //TODO: Clean up
-  public static GetFundNameUrl = '/assets/mock-data/fundNames.json';
+  //public static GetFundNameUrl = '/assets/mock-data/fundNames.json';
 
   constructor(private http: HttpClient, private router: Router) {}
 
