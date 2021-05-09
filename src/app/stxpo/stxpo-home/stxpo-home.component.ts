@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { DragAndDropService } from 'ag-grid-community';
 import { FundName } from '../models/fund-name';
 import { FetchMutualFundService } from '../services/FetchMutualFundService';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-stxpo-home',
@@ -14,6 +15,7 @@ export class StxpoHomeComponent implements OnInit {
   private gridColumnApi: any;
   rowData: [] = [];
   rowHeight: number | undefined;
+  rowSelection: string = 'single';
 
   columnDefs = [
     {
@@ -28,6 +30,7 @@ export class StxpoHomeComponent implements OnInit {
       headerName: 'Fund Name',
       filter: 'agTextColumnFilter',
       floatingFilter: true,
+      //suppressSizeToFit: true,
       //wrapText: true,
     },
   ];
@@ -45,7 +48,11 @@ export class StxpoHomeComponent implements OnInit {
 
   gridOptions = {};
 
-  constructor(private fetchMutualFundService: FetchMutualFundService) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private fetchMutualFundService: FetchMutualFundService
+  ) {
     this.getFundsName();
   }
 
@@ -78,7 +85,14 @@ export class StxpoHomeComponent implements OnInit {
         maxLength = rdata[i][fieldName].length;
       }
     }
-    console.log(maxLength);
+    //console.log(maxLength);
     return maxLength;
+  }
+
+  onSelectionChanged($event: any) {
+    let selectedRows = this.gridApi.getSelectedRows();
+    let mfid = selectedRows[0]['schemeCode'];
+    console.log(selectedRows[0]);
+    this.router.navigate(['/stxpo/details/' + mfid, {}]);
   }
 }

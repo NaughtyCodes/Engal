@@ -4,14 +4,23 @@ import { StxpoRoutingModule } from './stxpo-routing.module';
 import { StxpoHomeComponent } from './stxpo-home/stxpo-home.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { HttpClientModule } from '@angular/common/http';
+import { IndetailsComponent } from './indetails/indetails.component';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { TabViewModule } from 'primeng/tabview';
+import { ButtonModule } from 'primeng/button';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
-  declarations: [StxpoHomeComponent],
+  declarations: [StxpoHomeComponent, IndetailsComponent],
   imports: [
     CommonModule,
     HttpClientModule,
     AgGridModule.withComponents([]),
     StxpoRoutingModule,
+    TabMenuModule,
+    TabViewModule,
+    ButtonModule,
   ],
   providers: [],
 })
