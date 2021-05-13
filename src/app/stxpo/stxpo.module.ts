@@ -10,9 +10,14 @@ import { TabViewModule } from 'primeng/tabview';
 import { ButtonModule } from 'primeng/button';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ButtonRendererComponent } from './button-render/button-render.component';
 
 @NgModule({
-  declarations: [StxpoHomeComponent, IndetailsComponent],
+  declarations: [
+    StxpoHomeComponent,
+    IndetailsComponent,
+    ButtonRendererComponent,
+  ],
   imports: [
     CommonModule,
     HttpClientModule,

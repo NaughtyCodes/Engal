@@ -4,6 +4,7 @@ import { DragAndDropService } from 'ag-grid-community';
 import { FundName } from '../models/fund-name';
 import { FetchMutualFundService } from '../services/FetchMutualFundService';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ButtonRendererComponent } from '../button-render/button-render.component';
 
 @Component({
   selector: 'app-stxpo-home',
@@ -16,6 +17,7 @@ export class StxpoHomeComponent implements OnInit {
   rowData: [] = [];
   rowHeight: number | undefined;
   rowSelection: string = 'single';
+  frameworkComponents: any;
 
   columnDefs = [
     {
@@ -24,6 +26,7 @@ export class StxpoHomeComponent implements OnInit {
       filter: 'agTextColumnFilter',
       floatingFilter: true,
       cellStyle: {},
+      hide: true,
     },
     {
       field: 'schemeName',
@@ -32,6 +35,39 @@ export class StxpoHomeComponent implements OnInit {
       floatingFilter: true,
       //suppressSizeToFit: true,
       //wrapText: true,
+    },
+    {
+      headerName: '',
+      field: '',
+      width: 50,
+      cellRenderer: 'buttonRenderer',
+      cellRendererParams: {
+        onClick: this.addToPortfolio.bind(this),
+        label: 'click',
+        icon: 'pi pi-plus-circle',
+      },
+    },
+    {
+      headerName: '',
+      field: '',
+      width: 50,
+      cellRenderer: 'buttonRenderer',
+      cellRendererParams: {
+        onClick: this.addToWatchList.bind(this),
+        label: 'click',
+        icon: 'pi pi-list',
+      },
+    },
+    {
+      headerName: '',
+      field: '',
+      width: 50,
+      cellRenderer: 'buttonRenderer',
+      cellRendererParams: {
+        onClick: this.viewInDetails.bind(this),
+        label: 'click',
+        icon: 'pi pi-info',
+      },
     },
   ];
 
@@ -54,6 +90,9 @@ export class StxpoHomeComponent implements OnInit {
     private fetchMutualFundService: FetchMutualFundService
   ) {
     this.getFundsName();
+    this.frameworkComponents = {
+      buttonRenderer: ButtonRendererComponent,
+    };
   }
 
   ngOnInit(): void {}
@@ -61,6 +100,10 @@ export class StxpoHomeComponent implements OnInit {
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+  }
+
+  addToPortfolio(e: any) {
+    console.log(JSON.stringify(e));
   }
 
   getFundsName() {
@@ -91,8 +134,14 @@ export class StxpoHomeComponent implements OnInit {
 
   onSelectionChanged($event: any) {
     let selectedRows = this.gridApi.getSelectedRows();
-    let mfid = selectedRows[0]['schemeCode'];
     console.log(selectedRows[0]);
+  }
+
+  viewInDetails(e: any) {
+    let selectedRows = this.gridApi.getSelectedRows();
+    let mfid = selectedRows[0]['schemeCode'];
     this.router.navigate(['/stxpo/details/' + mfid, {}]);
   }
+
+  addToWatchList(e: any) {}
 }
