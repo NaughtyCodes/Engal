@@ -5,19 +5,24 @@ import { FundName } from '../models/fund-name';
 import { FetchMutualFundService } from '../services/FetchMutualFundService';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ButtonRendererComponent } from '../button-render/button-render.component';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService, PrimeNGConfig} from 'primeng/api';
 
 @Component({
-  selector: 'app-stxpo-home',
-  templateUrl: './stxpo-home.component.html',
-  styleUrls: ['./stxpo-home.component.scss'],
+  selector: 'app-stoxpo-home',
+  templateUrl: './stoxpo-home.component.html',
+  styleUrls: ['./stoxpo-home.component.scss'],
+  providers: [ConfirmationService]
 })
-export class StxpoHomeComponent implements OnInit {
+export class stoxpoHomeComponent implements OnInit {
   private gridApi: any;
   private gridColumnApi: any;
   rowData: [] = [];
   rowHeight: number | undefined;
   rowSelection: string = 'single';
   frameworkComponents: any;
+  showAddDialog: boolean = false;
+  breakpoints: any = {'960px': '75vw', '640px': '100vw'};
 
   columnDefs = [
     {
@@ -55,7 +60,7 @@ export class StxpoHomeComponent implements OnInit {
       cellRendererParams: {
         onClick: this.addToWatchList.bind(this),
         label: 'click',
-        icon: 'pi pi-list',
+        icon: 'pi pi-eye',
       },
     },
     {
@@ -66,7 +71,7 @@ export class StxpoHomeComponent implements OnInit {
       cellRendererParams: {
         onClick: this.viewInDetails.bind(this),
         label: 'click',
-        icon: 'pi pi-info',
+        icon: 'pi pi-list',
       },
     },
   ];
@@ -87,7 +92,9 @@ export class StxpoHomeComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private fetchMutualFundService: FetchMutualFundService
+    private fetchMutualFundService: FetchMutualFundService,
+    private confirmationService: ConfirmationService,
+    private primengConfig: PrimeNGConfig
   ) {
     this.getFundsName();
     this.frameworkComponents = {
@@ -95,7 +102,9 @@ export class StxpoHomeComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.primengConfig.ripple = true;
+  }
 
   onGridReady(params: any) {
     this.gridApi = params.api;
@@ -104,6 +113,7 @@ export class StxpoHomeComponent implements OnInit {
 
   addToPortfolio(e: any) {
     console.log(JSON.stringify(e));
+    this.showAddDialog = true;
   }
 
   getFundsName() {
@@ -140,7 +150,7 @@ export class StxpoHomeComponent implements OnInit {
   viewInDetails(e: any) {
     let selectedRows = this.gridApi.getSelectedRows();
     let mfid = selectedRows[0]['schemeCode'];
-    this.router.navigate(['/stxpo/details/' + mfid, {}]);
+    this.router.navigate(['/stoxpo/details/' + mfid, {}]);
   }
 
   addToWatchList(e: any) {}

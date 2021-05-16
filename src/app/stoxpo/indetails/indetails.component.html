@@ -1,6 +1,19 @@
 <p-button icon="pi pi-chevron-left" (click)="goBack()"></p-button>
 
 <p-tabView [(activeIndex)]="index">
+
+    <p-tabPanel header="Watch List">
+        <div>
+            <ag-grid-angular id="watchListGrid" style="width: 100%; height: 400px; overflow-x: hidden;"
+                class="ag-theme-alpine" [rowData]="watchListRowData" [columnDefs]="watchListColumnDefs"
+                [defaultColDef]="watchListDefColDef" [rowHeight]="watchListRowHeight" (gridReady)="watchListOnGridReady($event)"
+                >
+            </ag-grid-angular>
+        </div>
+    </p-tabPanel>
+    <p-tabPanel header="Portfolio">
+        Content 3
+    </p-tabPanel>
     <p-tabPanel header="Fund Info">
         <div>
             <ag-grid-angular id="metaGrid" style="width: 100%; height: 400px; overflow-x: hidden;"
@@ -17,10 +30,5 @@
             </ag-grid-angular>
         </div>
     </p-tabPanel>
-    <p-tabPanel header="Header 2">
-        Content 2
-    </p-tabPanel>
-    <p-tabPanel header="Header 3">
-        Content 3
-    </p-tabPanel>
+
 </p-tabView>

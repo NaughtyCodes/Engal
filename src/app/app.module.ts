@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { TengalModule } from './tengal/tengal.module';
-import { StxpoModule } from './stxpo/stxpo.module';
+import { stoxpoModule } from './stoxpo/stoxpo.module';
 import { AgGridModule } from 'ag-grid-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -17,7 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AgGridModule.withComponents([]),
     AppRoutingModule,
     TengalModule,
-    StxpoModule,
+    stoxpoModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

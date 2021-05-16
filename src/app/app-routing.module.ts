@@ -4,15 +4,15 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: './stxpo/stxpo.module#StxpoModule',
+    loadChildren: './stoxpo/stoxpo.module#stoxpoModule',
   },
   {
     path: 'tengal',
     loadChildren: './tengal/tengal.module#TengalModule',
   },
   {
-    path: 'stxpo',
-    loadChildren: './stxpo/stxpo.module#StxpoModule',
+    path: 'stoxpo',
+    loadChildren: './stoxpo/stoxpo.module#stoxpoModule',
   },
 ];
 

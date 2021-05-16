@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StxpoHomeComponent } from './stxpo-home.component';
+import { WatchListComponent } from './watch-list.component';
 
-describe('StxpoHomeComponent', () => {
-  let component: StxpoHomeComponent;
-  let fixture: ComponentFixture<StxpoHomeComponent>;
+describe('WatchListComponent', () => {
+  let component: WatchListComponent;
+  let fixture: ComponentFixture<WatchListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StxpoHomeComponent ]
+      declarations: [ WatchListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StxpoHomeComponent);
+    fixture = TestBed.createComponent(WatchListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -3,6 +3,9 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuItem } from 'primeng/api';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { FetchMutualFundService } from '../services/FetchMutualFundService';
+import { WatchlisthandlerService } from '../services/watchlisthandler.service';
+import { ThisReceiver } from '@angular/compiler';
+import { WatchList } from '../models/fund-name';
 
 @Component({
   selector: 'app-indetails',
@@ -13,17 +16,24 @@ export class IndetailsComponent implements OnInit {
   index = 0;
   mfId: number | undefined;
 
-  private metaGridApi: any;
-  private metaGridColumnApi: any;
-  metaRowData: any = [];
-  metaRowHeight: number | undefined;
-  metaRowSelection: string = 'single';
-
   private gridApi: any;
+  private metaGridApi: any;
+  private watchListGridApi: any;
+  
   private gridColumnApi: any;
-  rowData: [] = [];
+  private metaGridColumnApi: any;
+  private watchListGridColumnApi: any;
+  
+  rowData: any[] = [];
+  metaRowData: any[] = [];
+  watchListRowData: WatchList[] = [];
+  
+  watchListRowHeight: any = [];
+  metaRowHeight: number | undefined;
   rowHeight: number | undefined;
+
   rowSelection: string = 'single';
+  metaRowSelection: string = 'single';
 
   columnDefs = [
     {
@@ -38,6 +48,36 @@ export class IndetailsComponent implements OnInit {
       headerName: 'Nav',
       filter: 'agTextColumnFilter',
       floatingFilter: true,
+      cellStyle: {},
+    },
+  ];
+
+  watchListColumnDefs = [
+    {
+      field: 'schemeName',
+      headerName: 'Fund',
+      filter: 'agTextColumnFilter',
+      floatingFilter: false,
+      cellStyle: {},
+    },
+    {
+      field: 'nav',
+      headerName: 'Nav',
+      filter: 'agTextColumnFilter',
+      floatingFilter: false,
+      width:80,
+      cellStyle: {},
+    },
+    {
+      field: 'nav',
+      headerName: 'Diff',
+      aggFunc: ((params: any) => {
+        let sum = 0;
+        return sum;
+      }),
+      filter: 'agTextColumnFilter',
+      floatingFilter: false,
+      width:80,
       cellStyle: {},
     },
   ];
@@ -64,6 +104,8 @@ export class IndetailsComponent implements OnInit {
     cellStyle: { 'white-space': 'normal !important', 'line-height': '1.5em' },
   };
 
+  watchListDefColDef = this.defaultColDef;
+
   metaDefaultColDef = {
     width: 170,
     sortable: false,
@@ -75,13 +117,16 @@ export class IndetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private fetchMutualFundService: FetchMutualFundService
+    private fetchMutualFundService: FetchMutualFundService,
+    private watchlisthandlerService: WatchlisthandlerService
   ) {
     this.mfId = this.route.snapshot.params['mfid'];
     this.getFundDetails(this.route.snapshot.params['mfid']);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getWatchList();
+  }
 
   metaOnGridReady(params: any) {
     this.metaGridApi = params.api;
@@ -93,6 +138,11 @@ export class IndetailsComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
   }
 
+  watchListOnGridReady(params: any) {
+    this.watchListGridApi = params.api;
+    this.watchListGridColumnApi = params.columnApi;
+  }
+
   metaOnSelectionChanged($event: any) {
     //this.gridApi.getSelectedRows();
   }
@@ -102,9 +152,37 @@ export class IndetailsComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/stxpo', {}]);
+    this.router.navigate(['/stoxpo', {}]);
   }
 
+  getWatchList(){
+    let objArray: WatchList[] = [];
+    this.watchlisthandlerService.getWatchlist().subscribe(wlist => {
+      wlist.forEach((d, index) => {
+        this.fetchMutualFundService.getFundDetails(d.payload.doc.data()['schemeCode']).subscribe(fdetails => {
+          if(fdetails.data !== undefined){
+            let wl: WatchList = {
+              id: d.payload.doc.data()['id'],  
+              schemeCode: d.payload.doc.data()['schemeCode'],
+              schemeName: d.payload.doc.data()['schemeName'],
+              userId: d.payload.doc.data()['userId'],
+              nav: fdetails.data[0].nav,
+              prevNav: fdetails.data[1].nav,
+              date: fdetails.data[0].date,
+            }
+            if(index+1 === wlist.length){
+              objArray.push(wl);
+              this.watchListRowData = objArray;
+              this.watchListRowHeight = this.fetchMutualFundService.setRowHeightByField(this.watchListRowData, 'schemeName') * 1.8;
+            } else {
+              objArray.push(wl);
+            }
+          }
+        });
+      });
+    });
+  }
+  
   getFundDetails(mfId: number) {
     this.fetchMutualFundService.getFundDetails(mfId).subscribe(
       (data) => {
@@ -126,3 +204,8 @@ export class IndetailsComponent implements OnInit {
     );
   }
 }
+
+function asyncFunction(item: any, resolve: (value: unknown) => void) {
+  throw new Error('Function not implemented.');
+}
+
