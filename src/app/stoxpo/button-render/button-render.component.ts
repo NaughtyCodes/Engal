@@ -18,6 +18,7 @@ export class ButtonRendererComponent implements ICellRendererAngularComp {
   params: any;
   label: string = '';
   icon: string = '';
+  data: any = {};
 
   agInit(params: any): void {
     this.params = params;

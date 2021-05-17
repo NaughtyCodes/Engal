@@ -8,6 +8,7 @@ import { TengalModule } from './tengal/tengal.module';
 import { stoxpoModule } from './stoxpo/stoxpo.module';
 import { AgGridModule } from 'ag-grid-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     TengalModule,
     stoxpoModule,
+    CalendarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

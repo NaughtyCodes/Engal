@@ -20,6 +20,7 @@ import { environment } from 'src/environments/environment';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessagesModule } from 'primeng/messages';
 import { DialogModule } from 'primeng/dialog';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { DialogModule } from 'primeng/dialog';
     ButtonModule,
     MessagesModule,
     DialogModule,
+    CalendarModule,
   ],
   providers: [],
 })

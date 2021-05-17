@@ -1,12 +1,12 @@
 <p-button icon="pi pi-chevron-left" (click)="goBack()"></p-button>
 
-<p-tabView [(activeIndex)]="index">
+<p-tabView [(activeIndex)]="index" class="stoxpo-watchlist" style="">
 
-    <p-tabPanel header="Watch List">
+    <p-tabPanel header="Watch List" >
         <div>
-            <ag-grid-angular id="watchListGrid" style="width: 100%; height: 400px; overflow-x: hidden;"
+            <ag-grid-angular id="watchListGrid" style="width: 100%; height: 85vh; overflow-x: hidden;"
                 class="ag-theme-alpine" [rowData]="watchListRowData" [columnDefs]="watchListColumnDefs"
-                [defaultColDef]="watchListDefColDef" [rowHeight]="watchListRowHeight" (gridReady)="watchListOnGridReady($event)"
+                [suppressDragLeaveHidesColumns]=true [defaultColDef]="watchListDefColDef" [rowHeight]="watchListRowHeight" (gridReady)="watchListOnGridReady($event)"
                 >
             </ag-grid-angular>
         </div>
@@ -16,17 +16,17 @@
     </p-tabPanel>
     <p-tabPanel header="Fund Info">
         <div>
-            <ag-grid-angular id="metaGrid" style="width: 100%; height: 400px; overflow-x: hidden;"
+            <ag-grid-angular id="metaGrid" style="width: 100%; height: 40vh; overflow-x: hidden;"
                 class="ag-theme-alpine" [rowData]="metaRowData" [columnDefs]="metaColumnDefs"
                 [defaultColDef]="metaDefaultColDef" [rowHeight]="metaRowHeight" (gridReady)="metaOnGridReady($event)"
-                [rowSelection]="metaRowSelection" (selectionChanged)="metaOnSelectionChanged($event)">
+                [suppressDragLeaveHidesColumns]=true [rowSelection]="metaRowSelection" (selectionChanged)="metaOnSelectionChanged($event)">
             </ag-grid-angular>
         </div>
         <div>
-            <ag-grid-angular id="dataGrid" style="width: 100%; height: 600px; overflow-x: hidden;"
+            <ag-grid-angular id="dataGrid" style="width: 100%; height: 50vh; overflow-x: hidden;"
                 class="ag-theme-alpine" [rowData]="rowData" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef"
                 [rowHeight]="rowHeight" (gridReady)="onGridReady($event)" [rowSelection]="rowSelection"
-                (selectionChanged)="onSelectionChanged($event)">
+                [suppressDragLeaveHidesColumns]=true (selectionChanged)="onSelectionChanged($event)">
             </ag-grid-angular>
         </div>
     </p-tabPanel>

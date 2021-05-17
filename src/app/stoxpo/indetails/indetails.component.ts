@@ -35,6 +35,9 @@ export class IndetailsComponent implements OnInit {
   rowSelection: string = 'single';
   metaRowSelection: string = 'single';
 
+  screenHight: number = screen.height;
+
+
   columnDefs = [
     {
       field: 'date',
@@ -65,7 +68,7 @@ export class IndetailsComponent implements OnInit {
       headerName: 'Nav',
       filter: 'agTextColumnFilter',
       floatingFilter: false,
-      width:80,
+      
       cellStyle: {},
     },
     {
@@ -77,7 +80,7 @@ export class IndetailsComponent implements OnInit {
       }),
       filter: 'agTextColumnFilter',
       floatingFilter: false,
-      width:80,
+      
       cellStyle: {},
     },
   ];
@@ -122,6 +125,7 @@ export class IndetailsComponent implements OnInit {
   ) {
     this.mfId = this.route.snapshot.params['mfid'];
     this.getFundDetails(this.route.snapshot.params['mfid']);
+    console.log(screen.height);
   }
 
   ngOnInit(): void {
@@ -173,7 +177,8 @@ export class IndetailsComponent implements OnInit {
             if(index+1 === wlist.length){
               objArray.push(wl);
               this.watchListRowData = objArray;
-              this.watchListRowHeight = this.fetchMutualFundService.setRowHeightByField(this.watchListRowData, 'schemeName') * 1.8;
+              this.watchListGridApi.sizeColumnsToFit();
+              this.watchListRowHeight = this.fetchMutualFundService.setRowHeightByField(this.watchListRowData, 'schemeName') * 2.5;
             } else {
               objArray.push(wl);
             }

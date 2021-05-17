@@ -8,7 +8,7 @@ export interface WatchList {
   schemeCode: number;
   schemeName: String;
   userId: String;
-  nav: number,
-  prevNav: number,
-  date: String,
+  nav?: number,
+  prevNav?: number,
+  date?: String,
 }
