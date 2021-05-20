@@ -13,7 +13,7 @@ import { WatchList } from '../models/fund-name';
   styleUrls: ['./indetails.component.scss'],
 })
 export class IndetailsComponent implements OnInit {
-  index = 0;
+  index = 1;
   mfId: number | undefined;
 
   private gridApi: any;
@@ -61,6 +61,8 @@ export class IndetailsComponent implements OnInit {
       headerName: 'Fund',
       filter: 'agTextColumnFilter',
       floatingFilter: false,
+      wrapText: true,
+      autoHeight: true,
       cellStyle: {},
     },
     {
@@ -117,6 +119,7 @@ export class IndetailsComponent implements OnInit {
     filter: true,
     cellStyle: { 'white-space': 'normal !important', 'line-height': '1.5em' },
   };
+  
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -178,7 +181,7 @@ export class IndetailsComponent implements OnInit {
               objArray.push(wl);
               this.watchListRowData = objArray;
               this.watchListGridApi.sizeColumnsToFit();
-              this.watchListRowHeight = this.fetchMutualFundService.setRowHeightByField(this.watchListRowData, 'schemeName') * 2.5;
+              //this.watchListRowHeight = this.fetchMutualFundService.setRowHeightByField(this.watchListRowData, 'schemeName') * 2.5;
             } else {
               objArray.push(wl);
             }
@@ -208,9 +211,7 @@ export class IndetailsComponent implements OnInit {
       }
     );
   }
+
 }
 
-function asyncFunction(item: any, resolve: (value: unknown) => void) {
-  throw new Error('Function not implemented.');
-}
 

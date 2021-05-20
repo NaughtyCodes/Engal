@@ -34,56 +34,16 @@ export class FirebaseService {
     }
   }
 
-  updateGridData(collectionName: string, dataArray: any): ResponseObj {
-    let responseObject : ResponseObj =
-    {
-      responseCode: 100,
-      responseMessage: "",
-      responseData: null
-    };
-    return responseObject;
+  updateGridData(collectionName: string, dataArray: any): any {
+    return null;
   }
 
-  addGridData(collectionName: string, dataArray: any): ResponseObj {
-    let responseObject : ResponseObj =
-    {
-      responseCode: 100,
-      responseMessage: "",
-      responseData: null
-    };
-    try {
-      dataArray.forEach((d:any, index: number)=> {
-        this.firestore.collection(collectionName).add(d).then(() => {
-          console.log("Record Added : "+JSON.stringify(d));
-          if(index+1 === d.length){
-            responseObject.responseMessage = "Record Added";
-            responseObject.responseData = d;
-            return responseObject;
-          }
-        }, errorCode => {
-          responseObject.responseMessage = errorCode;
-          responseObject.responseData = d;
-          console.error(errorCode);
-        });
-      });      
-    } catch(e){
-      console.error(e.message);
-    }
+  addGridData(collectionName: string, data: any): any {
+    return this.firestore.collection(collectionName).add(data);
+  }
+
+  deleteGrid(collectionName: string, data: any): any{
+    return this.firestore.doc(collectionName+'/'+data).delete();
     
-    return responseObject;
   }
-
-  deleteGrid(collectionName: string, dataArray: any): ResponseObj {
-    let responseObject : ResponseObj =
-    {
-      responseCode: 100,
-      responseMessage: "Thanks",
-      responseData: null
-    };
-
-    return responseObject;
-  }
-
- 
-
 }

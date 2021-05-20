@@ -1,4 +1,4 @@
-<p-button icon="pi pi-chevron-left" (click)="goBack()"></p-button>
+<!-- <p-button icon="pi pi-chevron-left" (click)="goBack()"></p-button> -->
 
 <p-tabView [(activeIndex)]="index" class="stoxpo-watchlist" style="">
 
@@ -11,8 +11,8 @@
             </ag-grid-angular>
         </div>
     </p-tabPanel>
-    <p-tabPanel header="Portfolio">
-        Content 3
+    <p-tabPanel header="All Fund">
+        <app-stoxpo-home></app-stoxpo-home>
     </p-tabPanel>
     <p-tabPanel header="Fund Info">
         <div>

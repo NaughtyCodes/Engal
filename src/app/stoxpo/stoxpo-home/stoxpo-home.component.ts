@@ -1,6 +1,6 @@
 import { getInterpolationArgsLength } from '@angular/compiler/src/render3/view/util';
 import { Component, OnInit } from '@angular/core';
-import { DragAndDropService } from 'ag-grid-community';
+import { DragAndDropService, RowNode } from 'ag-grid-community';
 import { FundName, WatchList } from '../models/fund-name';
 import { FetchMutualFundService } from '../services/FetchMutualFundService';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -17,68 +17,17 @@ import { WatchlisthandlerService } from '../services/watchlisthandler.service';
   providers: [ConfirmationService]
 })
 export class stoxpoHomeComponent implements OnInit {
-  private gridApi: any;
-  private gridColumnApi: any;
-  rowData: [] = [];
+  gridApi: any;
+  gridColumnApi: any;
+  rowData: any[] = [];
   rowHeight: number | undefined;
   rowSelection: string = 'single';
   frameworkComponents: any;
   showAddDialog: boolean = false;
   breakpoints: any = {'960px': '75vw', '640px': '100vw'};
   watchList: any[] = [];
-
-  columnDefs = [
-    {
-      field: 'schemeCode',
-      headerName: 'Fund Id',
-      filter: 'agTextColumnFilter',
-      floatingFilter: false,
-      cellStyle: {},
-      hide: true,
-    },
-    {
-      field: 'schemeName',
-      headerName: 'Fund Name',
-      filter: 'agTextColumnFilter',
-      floatingFilter: true,
-      //suppressSizeToFit: true,
-      //wrapText: true,
-    },
-    {
-      headerName: '',
-      field: '',
-      width: 50,
-      cellRenderer: 'buttonRenderer',
-      cellRendererParams: {
-        onClick: this.addToPortfolio.bind(this),
-        label: 'click',
-        icon: 'pi pi-plus-circle',
-        data: {watchList : this.watchList}
-      },
-    },
-    {
-      headerName: '',
-      field: '',
-      width: 50,
-      cellRenderer: 'buttonRenderer',
-      cellRendererParams: {
-        onClick: this.addToWatchList.bind(this),
-        label: 'click',
-        icon: 'pi pi-eye',
-      },
-    },
-    {
-      headerName: '',
-      field: '',
-      width: 50,
-      cellRenderer: 'buttonRenderer',
-      cellRendererParams: {
-        onClick: this.viewInDetails.bind(this),
-        label: 'click',
-        icon: 'pi pi-list',
-      },
-    },
-  ];
+  columnDefs: any[] = [];
+  originalData:[] = [];
 
   defaultColDef = {
     width: 170,
@@ -110,6 +59,70 @@ export class stoxpoHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = true;
+    this.columnDefs = [
+      {
+        field: 'schemeCode',
+        headerName: 'Fund Id',
+        filter: 'agTextColumnFilter',
+        floatingFilter: true,
+        cellStyle: {},
+        hide: true,
+      },
+      {
+        field: 'schemeName',
+        headerName: '',
+        filter: 'agTextColumnFilter',
+        floatingFilter: true,
+        //suppressSizeToFit: true,
+        //wrapText: true,
+      },
+      {
+        headerName: '',
+        field: '',
+        width: 50,
+        cellRenderer: 'buttonRenderer',
+        cellRendererParams: {
+          onClick: this.addToPortfolio.bind(this),
+          label: 'click',
+          icon: 'pi pi-plus-circle',
+        },
+      },
+      {
+        headerName: '',
+        field: 'isWatchList',
+        width: 50,
+        cellRenderer: 'buttonRenderer',
+        // cellRenderer: function(params: any) {
+        //   let html = '';
+        //   for(let i=0; i<w.length; i++) {
+        //     if(params.data.schemeCode === w[i].payload.doc.data().schemeCode){
+        //       console.log(params.data.schemeCode+' === '+w[i].payload.doc.data().schemeCode);
+        //       html = `<button class="btn" style="padding:0% 0% 0% 0% !important;margin-left:0px;" type="button" (click)="onClick($event)" > <i class="pi pi-eye" style="font-size:1em; font-weight: bold; color:blue"></i> </button>`;
+        //       break;
+        //     } else {
+        //       html = `<button class="btn" style="padding:0% 0% 0% 0% !important;margin-left:0px;" type="button" (click)="onClick($event)" > <i class="pi pi-eye" style="font-size:1em; font-weight: bold; color:dimgrey"></i> </button>`;
+        //     }
+        //   };
+        //   return html;                
+        // },
+        cellRendererParams: {
+          onClick: this.addToWatchList.bind(this),
+          label: 'click',
+          icon: 'pi pi-eye',
+        }
+      },
+      {
+        headerName: '',
+        field: '',
+        width: 50,
+        cellRenderer: 'buttonRenderer',
+        cellRendererParams: {
+          onClick: this.viewInDetails.bind(this),
+          label: 'click',
+          icon: 'pi pi-list',
+        },
+      },
+    ];
   }
 
   onGridReady(params: any) {
@@ -123,13 +136,21 @@ export class stoxpoHomeComponent implements OnInit {
   }
 
   getFundsName() {
-    this.fetchMutualFundService.getFundNames().subscribe(
-      (data) => {
+    this.fetchMutualFundService.getFundNames().subscribe((data) => {
         this.watchlisthandlerService.getWatchlist().subscribe(w=>{
-          this.watchList = w.map(d => {
-            return d.payload.doc.data()
+          let watchList = w.map(d => {
+            let r = d.payload.doc.data(); 
+            r['id'] = d.payload.doc.id;
+            return r;
           });
-          this.rowData = data;
+          let formatedData: any[] = [];
+          data.forEach((e: any) => {
+            e['isWatchList'] = watchList.filter(w => (w.schemeCode === e.schemeCode)).length === 0 ? false : true;
+            formatedData.push(e);
+          });
+          
+          this.rowData = formatedData;
+          this.originalData = data;
           this.rowHeight = this.setRowHeightByField(data, 'schemeName') / 1.8;
           this.gridApi.sizeColumnsToFit();
         });
@@ -165,18 +186,39 @@ export class stoxpoHomeComponent implements OnInit {
 
   addToWatchList(e: any) {
     let fund : WatchList = {
-      id: '',
       schemeCode: e.rowData.schemeCode,
       schemeName: e.rowData.schemeName,
       userId: 'Admin',
     }
     let params: any = {field:'schemeCode', value: e.rowData.schemeCode}
-    this.watchlisthandlerService.getWatchlist().subscribe(d=>{
-      if (d.filter((a:any) => ( a.payload.doc.data().schemeCode === e.rowData.schemeCode)).length === 0){
-        this.firebaseService.addGridData('stoxpo_watchlist',[fund]);
+    this.watchlisthandlerService.getWatchlist().subscribe(data=>{
+      let selectedRecord = data.filter((a:any) => ( a.payload.doc.data().schemeCode === e.rowData.schemeCode));
+      if (selectedRecord.length === 0){
+        this.firebaseService.addGridData('stoxpo_watchlist',fund).then(()=>{
+          console.log( "Record Added : "+JSON.stringify(fund) );  
+          this.originalData.forEach((d,i) => {
+            if(d['schemeCode'] === fund.schemeCode){
+              this.rowData[i].isWatchList = true;
+            }
+          });
+          this.gridApi.setRowData(this.rowData);
+        }, (errorCode: any) => {
+          console.error(errorCode);
+        });
       } else {
-        alert("Already added to watchlist.");
-      } 
+        let params: any = {id : selectedRecord[0].payload.doc.id};
+        this.firebaseService.deleteGrid('stoxpo_watchlist', params.id).then(()=>{
+          console.log( "Record Deleted : "+JSON.stringify(selectedRecord[0].payload.doc.data()) );
+          this.originalData.forEach((d,i) => {
+            if(d['schemeCode'] === fund.schemeCode){
+              this.rowData[i].isWatchList = false;
+            }
+          });
+          this.gridApi.setRowData(this.rowData);
+        }, (errorCode: any) => {
+          console.error(errorCode);
+        });
+      }
     });
   }
 

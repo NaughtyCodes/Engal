@@ -3,30 +3,40 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 
 @Component({
   selector: 'app-button-renderer',
-  template: `<button
-    class="btn"
-    style="padding:0% 0% 0% 0% !important;margin-left:0px;color:dimgrey !important"
-    type="button"
-    onMouseOver="this.style.color='#0e0e0e'"
-    onMouseOut="this.style.color='dimgrey'"
-    (click)="onClick($event)"
-  >
-    <i class="{{ icon }}" style="font-size:1em"></i>
-  </button>`,
+  template: `<button class="btn" style="padding:0% 0% 0% 0% !important;margin-left:0px;" type="button" (click)="onClick($event)" > <i class="{{ icon }}" style="{{ iconStyle }}"></i> </button>`,
 })
 export class ButtonRendererComponent implements ICellRendererAngularComp {
   params: any;
   label: string = '';
   icon: string = '';
   data: any = {};
+  watchList: any[] = [];
+  iconStyle: string = '';
 
   agInit(params: any): void {
     this.params = params;
     this.label = this.params.label || null;
     this.icon = this.params.icon || null;
+    this.watchList = params.data.watchList || null;
+
+    this.setWatchlistIconColor();
+    
+  }
+
+  setWatchlistIconColor(){
+    if(this.icon === 'pi pi-eye' && this.params.data.isWatchList){
+      this.iconStyle = 'font-size:1em; font-weight: bold; color:blue';
+    } else {
+      this.iconStyle = 'font-size:1em; font-weight: bold; color:dimgrey';
+    }
   }
 
   refresh(params?: any): boolean {
+    this.params = params;
+    this.label = this.params.label || null;
+    this.icon = this.params.icon || null;
+    this.watchList = params.data.watchList || null;
+    this.setWatchlistIconColor();
     return true;
   }
 
