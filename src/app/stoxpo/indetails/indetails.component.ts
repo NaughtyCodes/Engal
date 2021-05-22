@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuItem } from 'primeng/api';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { FetchMutualFundService } from '../services/FetchMutualFundService';
+import { FetchMutualFundService } from '../services/fetch-mutualfund.service';
 import { WatchlisthandlerService } from '../services/watchlisthandler.service';
 import { ThisReceiver } from '@angular/compiler';
 import { WatchList } from '../models/fund-name';
@@ -13,7 +13,7 @@ import { WatchList } from '../models/fund-name';
   styleUrls: ['./indetails.component.scss'],
 })
 export class IndetailsComponent implements OnInit {
-  index = 1;
+  activeTabIndex = 0;
   mfId: number | undefined;
 
   private gridApi: any;
@@ -36,7 +36,9 @@ export class IndetailsComponent implements OnInit {
   metaRowSelection: string = 'single';
 
   screenHight: number = screen.height;
-
+  isFundDetailsTab = false;
+  isAllFundsTab = false;
+  isWatchListTab = false;
 
   columnDefs = [
     {
@@ -96,6 +98,8 @@ export class IndetailsComponent implements OnInit {
     {
       field: 'value',
       headerName: 'Details',
+      wrapText: true,
+      autoHeight: true,
       cellStyle: {},
     },
   ];
@@ -126,13 +130,27 @@ export class IndetailsComponent implements OnInit {
     private fetchMutualFundService: FetchMutualFundService,
     private watchlisthandlerService: WatchlisthandlerService
   ) {
-    this.mfId = this.route.snapshot.params['mfid'];
-    this.getFundDetails(this.route.snapshot.params['mfid']);
-    console.log(screen.height);
+    console.log(this.route.snapshot.url);
+    //this.mfId = this.route.snapshot.params['mfId'];
+    //this.activeTabIndex = this.route.snapshot.params['tabIndex'];
+    //this.getFundDetails(this.route.snapshot.params['mfId']);
   }
 
   ngOnInit(): void {
     this.getWatchList();
+  }
+
+  onChangeTab($event: any) {
+    console.log('changing tab:'+$event.originalEvent.currentTarget.innerText);
+    let tabIndex = $event.index;
+    if(tabIndex === 1){
+      this.isAllFundsTab = true;
+    } else if(tabIndex === 2){
+      this.isFundDetailsTab = true;
+    } else {
+      this.isAllFundsTab = true;
+      this.isFundDetailsTab = true;
+    }
   }
 
   metaOnGridReady(params: any) {
@@ -191,19 +209,21 @@ export class IndetailsComponent implements OnInit {
     });
   }
   
-  getFundDetails(mfId: number) {
+  getFundDetails(mfId: any) {
+    this.activeTabIndex = 2;
+    this.isFundDetailsTab = true;
+    this.metaRowData = [];
     this.fetchMutualFundService.getFundDetails(mfId).subscribe(
       (data) => {
         let meta = [
+          { field: 'Scheme Name', value: data['meta']['scheme_name'] },
           { field: 'Fund House', value: data['meta']['fund_house'] },
           { field: 'Scheme Category', value: data['meta']['scheme_category'] },
-          { field: 'Scheme Name', value: data['meta']['scheme_name'] },
-        ];
+        ];    
         this.metaRowData = meta;
-        this.metaRowHeight =
-          this.fetchMutualFundService.setRowHeightByField(meta, 'value') * 1.8;
+        this.metaRowHeight = this.fetchMutualFundService.setRowHeightByField(meta, 'value') * 1.8;
         this.rowData = data.data;
-        //this.metaGridApi.sizeColumnsToFit();
+        this.metaGridApi.sizeColumnsToFit();
         //this.gridApi.sizeColumnsToFit();
       },
       (error) => {

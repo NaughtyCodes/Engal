@@ -8,10 +8,14 @@ import { WatchListComponent } from './watch-list/watch-list.component';
 const routes: Routes = [
   {
     path: '',
-    component: stoxpoHomeComponent,
+    component: IndetailsComponent,
   },
   {
-    path: 'details/:mfid',
+    path: 'details/:mfId',
+    component: IndetailsComponent,
+  },
+  {
+    path: 'details/tab/:tabIndex',
     component: IndetailsComponent,
   },
   {

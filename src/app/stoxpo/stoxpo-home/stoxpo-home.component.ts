@@ -1,14 +1,15 @@
 import { getInterpolationArgsLength } from '@angular/compiler/src/render3/view/util';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DragAndDropService, RowNode } from 'ag-grid-community';
 import { FundName, WatchList } from '../models/fund-name';
-import { FetchMutualFundService } from '../services/FetchMutualFundService';
+import { FetchMutualFundService } from '../services/fetch-mutualfund.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { ButtonRendererComponent } from '../button-render/button-render.component';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {ConfirmationService, PrimeNGConfig} from 'primeng/api';
 import { FirebaseService } from '../services/firebase.service';
 import { WatchlisthandlerService } from '../services/watchlisthandler.service';
+import { FetchOptionsService } from '../services/fetch-options.service';
 
 @Component({
   selector: 'app-stoxpo-home',
@@ -28,6 +29,9 @@ export class stoxpoHomeComponent implements OnInit {
   watchList: any[] = [];
   columnDefs: any[] = [];
   originalData:[] = [];
+
+  @Output()
+  getFundDetails = new EventEmitter<number>();
 
   defaultColDef = {
     width: 170,
@@ -50,6 +54,7 @@ export class stoxpoHomeComponent implements OnInit {
     private primengConfig: PrimeNGConfig,
     private firebaseService: FirebaseService,
     private watchlisthandlerService: WatchlisthandlerService,
+    private fetchOptionsService: FetchOptionsService
   ) {
     this.getFundsName();
     this.frameworkComponents = {
@@ -58,6 +63,7 @@ export class stoxpoHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.primengConfig.ripple = true;
     this.columnDefs = [
       {
@@ -180,8 +186,9 @@ export class stoxpoHomeComponent implements OnInit {
   }
 
   viewInDetails(e: any) {
-    let mfid = e.rowData.schemeCode;
-    this.router.navigate(['/stoxpo/details/' + mfid, {}]);
+    let mfId = e.rowData.schemeCode;
+    this.getFundDetails.emit(mfId);
+    this.router.navigate(['/stoxpo/details/'+ mfId, {}]);
   }
 
   addToWatchList(e: any) {
