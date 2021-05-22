@@ -46,6 +46,8 @@ export class IndetailsComponent implements OnInit {
       headerName: 'Date',
       filter: 'agTextColumnFilter',
       floatingFilter: true,
+      wrapText: true,
+      autoHeight: true,
       cellStyle: {},
     },
     {
@@ -53,6 +55,8 @@ export class IndetailsComponent implements OnInit {
       headerName: 'Nav',
       filter: 'agTextColumnFilter',
       floatingFilter: true,
+      wrapText: true,
+      autoHeight: true,
       cellStyle: {},
     },
   ];
@@ -224,7 +228,7 @@ export class IndetailsComponent implements OnInit {
         this.metaRowHeight = this.fetchMutualFundService.setRowHeightByField(meta, 'value') * 1.8;
         this.rowData = data.data;
         this.metaGridApi.sizeColumnsToFit();
-        //this.gridApi.sizeColumnsToFit();
+        this.gridApi.sizeColumnsToFit();
       },
       (error) => {
         console.log(error);

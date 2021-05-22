@@ -24,7 +24,7 @@ export class ButtonRendererComponent implements ICellRendererAngularComp {
   }
 
   setWatchlistIconColor(){
-    if(this.icon === 'pi pi-eye' && this.params.data.isWatchList){
+    if(this.label === 'Watch-List' && this.params.data.isWatchList){
       this.iconStyle = 'font-size:1em; font-weight: bold; color:blue';
     } else {
       this.iconStyle = 'font-size:1em; font-weight: bold; color:dimgrey';

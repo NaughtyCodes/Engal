@@ -1,7 +1,7 @@
 <!-- <p-button icon="pi pi-chevron-left" (click)="goBack()"></p-button> -->
 
-<p-tabView [(activeIndex)]="activeTabIndex" (onChange)="onChangeTab($event);" class="stoxpo-watchlist" style="">
-
+<p-tabView  [(activeIndex)]="activeTabIndex" (onChange)="onChangeTab($event);" class="stoxpo-watchlist" style="">
+        
     <p-tabPanel header="Watch List" >
         <div>
             <ag-grid-angular id="watchListGrid" style="width: 100%; height: 100vh; overflow-x: hidden;"

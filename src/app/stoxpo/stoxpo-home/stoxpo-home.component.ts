@@ -89,7 +89,7 @@ export class stoxpoHomeComponent implements OnInit {
         cellRenderer: 'buttonRenderer',
         cellRendererParams: {
           onClick: this.addToPortfolio.bind(this),
-          label: 'click',
+          label: 'Add-Portfolio',
           icon: 'pi pi-plus-circle',
         },
       },
@@ -113,8 +113,8 @@ export class stoxpoHomeComponent implements OnInit {
         // },
         cellRendererParams: {
           onClick: this.addToWatchList.bind(this),
-          label: 'click',
-          icon: 'pi pi-eye',
+          label: 'Watch-List',
+          icon: 'pi pi-star-o',
         }
       },
       {
@@ -124,7 +124,7 @@ export class stoxpoHomeComponent implements OnInit {
         cellRenderer: 'buttonRenderer',
         cellRendererParams: {
           onClick: this.viewInDetails.bind(this),
-          label: 'click',
+          label: 'In-Details',
           icon: 'pi pi-list',
         },
       },
