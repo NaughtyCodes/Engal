@@ -81,7 +81,7 @@ export class IndetailsComponent implements OnInit {
     },
     {
       field: 'nav',
-      headerName: 'Diff',
+      headerName: 'Diff.',
       aggFunc: ((params: any) => {
         let sum = 0;
         return sum;

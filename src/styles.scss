@@ -32,3 +32,28 @@ svg text {
 .stoxpo-watchlist .p-tabview .p-tabview-panels {
   padding: 0px !important;
 }
+
+.p-button.p-button-icon-only  {
+  margin-right : 1rem;
+}
+// .p-menubar{
+//   padding:unset !important;
+// }
+
+.p-toolbar {
+  padding: 0.5rem !important;
+  padding-left: 1.5rem !important;
+}
+
+.heading-menubar{
+  // position: -webkit-sticky;
+  // position: sticky;
+  top: 0;
+}
+
+.footer-menubar{
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+}
+

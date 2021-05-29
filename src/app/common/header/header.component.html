@@ -1,0 +1,12 @@
+<p-menubar class="heading-menubar" [model]="items">
+    <div>
+        <input class="heading-search" type="text" pInputText placeholder="Search">
+        <button class="fullmenu" type="button" (click)="visibleSidebar5 = true" icon="pi pi-th-large" pButton style="margin-left:.25em"></button>
+    </div>
+</p-menubar>
+
+<p-sidebar [(visible)]="visibleSidebar5" [fullScreen]="true" [baseZIndex]="10000">
+    <h1 style="font-weight:normal">Full Screen Sidebar</h1>
+    <p-button type="button" (click)="visibleSidebar5 = false" label="Save" styleClass="p-button-success"></p-button>
+    <p-button type="button" (click)="visibleSidebar5 = false" label="Cancel" styleClass="p-button-secondary"></p-button>
+</p-sidebar>

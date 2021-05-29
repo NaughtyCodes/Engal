@@ -21,6 +21,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessagesModule } from 'primeng/messages';
 import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
+import { AppCommonModule } from '../common/app-common.module';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,6 @@ import { CalendarModule } from 'primeng/calendar';
     AngularFireDatabaseModule,
     AngularFirestoreModule,
     ConfirmDialogModule,
-    ButtonModule,
     MessagesModule,
     DialogModule,
     CalendarModule,
