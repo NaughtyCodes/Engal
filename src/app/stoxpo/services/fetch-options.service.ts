@@ -8,15 +8,13 @@ import { Observable } from 'rxjs';
 })
 export class FetchOptionsService {
 
-  public static GetOptions = 'https://www1.nseindia.com/marketinfo/companyTracker/mtOptionKeys.jsp?companySymbol=BRITANNIA&indexSymbol=NIFTY&series=EQ&instrument=OPTSTK&date=29JUL2021';
+  public static GetOptions = '/assets/mock-data/';
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  public getOptions() {
+  public getOptions(date: string) {
     const headers= new HttpHeaders();
 
-    return this.http.get(FetchOptionsService.GetOptions, { 'headers': headers }).subscribe((e:any) => {
-      console.log(e);
-    });
+    return this.http.get(FetchOptionsService.GetOptions+date+'.json', { 'headers': headers });
   }
 }

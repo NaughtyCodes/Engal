@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AnalyserComponent } from './analyser/analyser.component';
 import { CrudstoxpoComponent } from './crud-stoxpo/crud-stoxpo.component';
 import { IndetailsComponent } from './indetails/indetails.component';
 import { stoxpoHomeComponent } from './stoxpo-home/stoxpo-home.component';
@@ -9,6 +10,10 @@ const routes: Routes = [
   {
     path: '',
     component: IndetailsComponent,
+  },
+  {
+    path: 'a',
+    component: AnalyserComponent,
   },
   {
     path: 'details/:mfId',
