@@ -108,19 +108,20 @@ export class AnalyserComponent implements OnInit {
   ngOnInit(): void { 
     this.primengConfig.ripple = true;
 
-    this.fetchOptionsService.getOptions('24JUN2021').subscribe((d:any) => {
+    this.fetchOptionsService.getOptions().subscribe((d:any) => {
       for(const o in d){
         for(const p in d[o]){
           if(p === 'optionChain' && o === 'BANKBARODA'){
             const c = d[o][p];
             from(c).pipe(map((e:any) => {
-                if(e.putLTP !== "" && e.putVolume <= 10){
+                if(e.poLTP !== "" && e.poVolume <= 10){
                   return {
                     optionChain:"BOB BANK",
                     price: e.strikePrice,
                     rsi: "40",
-                    premium: e.putLTP,
-                    precentage: (e.putLTP/(e.strikePrice/100)).toFixed(2),
+                    premium: e.poLTP,
+                    volume: e.poVolume,
+                    precentage: (e.poLTP/(e.strikePrice/100)).toFixed(2),
                     expiry: "24JUN2021",
                   }
                 }

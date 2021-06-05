@@ -8,13 +8,12 @@ import { Observable } from 'rxjs';
 })
 export class FetchOptionsService {
 
-  public static GetOptions = '/assets/mock-data/';
+  public static GetOptions = 'https://raw.githubusercontent.com/hellomohanakrishnan/NseOptionsChainData/main/LastUpdatedData.json';
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  public getOptions(date: string) {
+  public getOptions() {
     const headers= new HttpHeaders();
-
-    return this.http.get(FetchOptionsService.GetOptions+date+'.json', { 'headers': headers });
+    return this.http.get(FetchOptionsService.GetOptions, { 'headers': headers });
   }
 }
