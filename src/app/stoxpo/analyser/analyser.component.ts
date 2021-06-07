@@ -24,6 +24,8 @@ export class AnalyserComponent implements OnInit {
   originalData:[] = [];
   gridOptions = {};
   t: any[] = [];
+  preValue: any;
+  changeFlag: boolean = false;
 
   defaultColDef = {
     width: 170,
@@ -45,8 +47,16 @@ export class AnalyserComponent implements OnInit {
           field: 'optionChain',
           headerName: 'EQ',
           filter: 'agTextColumnFilter',
-          floatingFilter: false,
-          cellStyle: {},
+          floatingFilter: true,
+          cellStyle: (params: any) => {
+            if(this.preValue ===  params.value) {
+              return {"background-color": "#87CEFA"};
+            } else {
+              this.preValue = params.value;
+              this.changeFlag = true;
+              return {"background-color": "#bababa"};
+            }
+          },
           hide: false,
           wrapText: true,
           autoHeight: true,
@@ -61,22 +71,26 @@ export class AnalyserComponent implements OnInit {
           field: 'rsi',
           headerName: 'RSI',
           filter: 'agTextColumnFilter',
-          floatingFilter: false,
+          floatingFilter: true,
         },
         {
           headerName: 'PRE',
           field: 'premium',
+          filter: 'agNumberColumnFilter',
         }, 
         {
           headerName: '%',
           field: 'precentage',
+          filter: 'agNumberColumnFilter',
+          floatingFilter: true,
         }, 
         {
           headerName: 'EX',
           field: 'expiry',
           wrapText: true,
           autoHeight: true,
-          hide: true,
+          filter: 'agTextColumnFilter',
+          hide: false,
         }
       ];
   
@@ -111,18 +125,18 @@ export class AnalyserComponent implements OnInit {
     this.fetchOptionsService.getOptions().subscribe((d:any) => {
       for(const o in d){
         for(const p in d[o]){
-          if(p === 'optionChain' && o === 'BANKBARODA'){
+          if(p === 'optionChain' && o !== ''){
             const c = d[o][p];
             from(c).pipe(map((e:any) => {
                 if(e.poLTP !== "" && e.poVolume <= 10){
                   return {
-                    optionChain:"BOB BANK",
+                    optionChain: o,
                     price: e.strikePrice,
-                    rsi: "40",
+                    rsi: d[o].rsi.value,
                     premium: e.poLTP,
                     volume: e.poVolume,
                     precentage: (e.poLTP/(e.strikePrice/100)).toFixed(2),
-                    expiry: "24JUN2021",
+                    expiry: d[o].expiryDate,
                   }
                 }
             })).subscribe(
