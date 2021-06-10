@@ -16,7 +16,7 @@ export class AnalyserComponent implements OnInit {
   gridApi: any;
   gridColumnApi: any;
   rowData: any[] = [];
-  rowHeight: number | undefined;
+  rowHeight: number=18;
   rowSelection: string = 'single';
   frameworkComponents: any;
   watchList: any[] = [];
@@ -26,6 +26,7 @@ export class AnalyserComponent implements OnInit {
   t: any[] = [];
   preValue: any;
   changeFlag: boolean = false;
+  firstCounter: boolean = true;
 
   defaultColDef = {
     width: 80,
@@ -49,11 +50,17 @@ export class AnalyserComponent implements OnInit {
           filter: 'agTextColumnFilter',
           floatingFilter: true,
           cellStyle: (params: any) => {
-            if(this.preValue ===  params.value) {
+            if(this.firstCounter){
+              this.firstCounter = false;
+              this.changeFlag = false;
+            } else {
+              this.changeFlag = this.preValue === params.value ? false : true; 
+            }
+            if(!this.changeFlag) {
+              this.preValue = params.value;
               return {"background-color": "#87CEFA"};
             } else {
-              this.preValue = params.value;
-              this.changeFlag = true;
+              this.preValue = params.value
               return {"background-color": "#bababa"};
             }
           },
