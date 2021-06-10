@@ -28,12 +28,12 @@ export class AnalyserComponent implements OnInit {
   changeFlag: boolean = false;
 
   defaultColDef = {
-    width: 170,
-    sortable: false,
+    width: 80,
+    sortable: true,
     editable: false,
     resizable: false,
     filter: false,
-    cellStyle: { 'white-space': 'normal !important', 'line-height': '1.5em' },
+    cellStyle: { 'white-space': 'normal !important'},
   };
 
   constructor(
@@ -60,28 +60,45 @@ export class AnalyserComponent implements OnInit {
           hide: false,
           wrapText: true,
           autoHeight: true,
+          pinned: 'left',
         },
         {
           headerName: 'St.Pr.',
           field: 'price',
+          filter: 'agNumberColumnFilter',
           wrapText: true,
           autoHeight: true,
+          floatingFilter: true,
+        },
+        {
+          field: 'volume',
+          headerName: 'VOL',
+          filter: 'agNumberColumnFilter',
+          floatingFilter: true,
+          width: 80,
         }, 
         {
           field: 'rsi',
           headerName: 'RSI',
-          filter: 'agTextColumnFilter',
+          filter: 'agNumberColumnFilter',
+          wrapText: true,
+          autoHeight: true,
           floatingFilter: true,
         },
         {
           headerName: 'PRE',
           field: 'premium',
           filter: 'agNumberColumnFilter',
+          floatingFilter: true,
+          wrapText: true,
+          autoHeight: true,
         }, 
         {
           headerName: '%',
           field: 'precentage',
           filter: 'agNumberColumnFilter',
+          wrapText: true,
+          autoHeight: true,
           floatingFilter: true,
         }, 
         {
@@ -91,31 +108,10 @@ export class AnalyserComponent implements OnInit {
           autoHeight: true,
           filter: 'agTextColumnFilter',
           hide: false,
+          floatingFilter: true,
+          width: 60,
         }
       ];
-  
-      // this.rowData = [{
-      //   optionChain:"BOB BANK",
-      //   price: "2000",
-      //   rsi: "40",
-      //   premium: "9.20",
-      //   precentage: "2%",
-      //   expiry: "24JUN2021",
-      // },{
-      //   optionChain:"BOB BANK",
-      //   price: "2000",
-      //   rsi: "40",
-      //   premium: "9.20",
-      //   precentage: "2%",
-      //   expiry: "24JUN2021",
-      // },{
-      //   optionChain:"BOB BANK",
-      //   price: "2000",
-      //   rsi: "40",
-      //   premium: "9.20",
-      //   precentage: "2%",
-      //   expiry: "24JUN2021",
-      // }];
   
     }
 
@@ -128,7 +124,7 @@ export class AnalyserComponent implements OnInit {
           if(p === 'optionChain' && o !== ''){
             const c = d[o][p];
             from(c).pipe(map((e:any) => {
-                if(e.poLTP !== "" && e.poVolume <= 10){
+                if(e.poVolume > 0){
                   return {
                     optionChain: o,
                     price: e.strikePrice,
@@ -155,8 +151,8 @@ export class AnalyserComponent implements OnInit {
 
   onGridReady(params: any) {
     this.gridApi = params.api;
-    this.gridApi.sizeColumnsToFit();
-    this.gridApi.setHeaderHeight();
+    //this.gridApi.sizeColumnsToFit();
+    this.gridApi.setHeaderHeight(20);
     this.gridColumnApi = params.columnApi;
   }
 

@@ -10,6 +10,30 @@
 //     format("truetype");
 // }
 
+//--------------------
+#optionChain div.ag-row {
+  font-size: .7em !important;
+   height: 18px !important;
+}
+
+#optionChain .ag-header-cell-text {
+  font-size: .7em !important;
+   height: 18px !important;
+}
+
+#optionChain .ag-cell {
+  line-height: unset !important;
+}
+
+#optionChain .ag-theme-alpine .ag-cell, .ag-theme-alpine .ag-full-width-row .ag-cell-wrapper.ag-row-group {
+  padding: 2px !important;
+}
+
+#optionChain .ag-theme-alpine .ag-header-cell, .ag-theme-alpine .ag-header-group-cell {
+  padding: 2px !important;
+}
+
+//----------------
 .colorBlue {
   background-color: '#87CEFA';
 }
