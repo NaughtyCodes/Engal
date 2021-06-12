@@ -1,5 +1,6 @@
 //--------------------
-:host ::ng-deep .ag-row {
+@media screen and (max-width:450px) { 
+  :host ::ng-deep .ag-row {
     font-size: .7em !important;
     height: 18px !important;
   }
@@ -19,6 +20,6 @@
 :host ::ng-deep .ag-theme-alpine .ag-header-cell, .ag-theme-alpine .ag-header-group-cell {
     padding: 2px !important;
   }
-  
+}
   //----------------
   

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
@@ -30,7 +30,7 @@ export class AnalyserComponent implements OnInit {
   firstCounter: boolean = true;
 
   defaultColDef = {
-    width: 80,
+    width: screen.width <= 450 ? 80 : 120,
     sortable: true,
     editable: false,
     resizable: false,
@@ -45,6 +45,11 @@ export class AnalyserComponent implements OnInit {
     private firebaseService: FirebaseService,
     private http: HttpClient,
     ) { 
+
+      const numberSort = (num1: number, num2: number) => {
+        return num1 - num2;
+      };
+
       this.columnDefs = [
         {
           field: 'optionChain',
@@ -72,43 +77,66 @@ export class AnalyserComponent implements OnInit {
           pinned: 'left',
         },
         {
-          headerName: 'St.Pr.',
-          field: 'price',
-          filter: 'agNumberColumnFilter',
+          headerName: 'PRICE',
+          field: 'lastPrice',
+          filter: 'agTextColumnFilter',
           wrapText: true,
           autoHeight: true,
           floatingFilter: true,
+          comparator: numberSort,
+        },
+        {
+          headerName: 'ST.PR.',
+          field: 'strikePrice',
+          filter: 'agTextColumnFilter',
+          wrapText: true,
+          autoHeight: true,
+          floatingFilter: true,
+          comparator: numberSort,
+        },
+        {
+          headerName: 'DIFF%',
+          field: 'diffPercentage',
+          filter: 'agTextColumnFilter',
+          wrapText: true,
+          autoHeight: true,
+          floatingFilter: true,
+          comparator: numberSort,
         },
         {
           field: 'volume',
           headerName: 'VOL',
-          filter: 'agNumberColumnFilter',
+          filter: 'agTextColumnFilter',
           floatingFilter: true,
           width: 80,
+          comparator: numberSort,
         }, 
         {
           field: 'rsi',
           headerName: 'RSI',
-          filter: 'agNumberColumnFilter',
+          filter: 'agTextColumnFilter',
           wrapText: true,
           autoHeight: true,
           floatingFilter: true,
+          comparator: numberSort,
         },
         {
           headerName: 'PRE',
           field: 'premium',
-          filter: 'agNumberColumnFilter',
+          filter: 'agTextColumnFilter',
           floatingFilter: true,
           wrapText: true,
           autoHeight: true,
+          comparator: numberSort,
         }, 
         {
           headerName: '%',
           field: 'precentage',
-          filter: 'agNumberColumnFilter',
+          filter: 'agTextColumnFilter',
           wrapText: true,
           autoHeight: true,
           floatingFilter: true,
+          comparator: numberSort,
         }, 
         {
           headerName: 'EX',
@@ -118,15 +146,13 @@ export class AnalyserComponent implements OnInit {
           filter: 'agTextColumnFilter',
           hide: false,
           floatingFilter: true,
-          width: 60,
+          width: screen.width <= 450 ? 80 : 120,
         }
       ];
   
     }
 
   ngOnInit(): void { 
-
-    this.getStockPrice();
 
     this.primengConfig.ripple = true;
 
@@ -137,14 +163,18 @@ export class AnalyserComponent implements OnInit {
             const c = d[o][p];
             from(c).pipe(map((e:any) => {
                 if(e.poVolume > 0){
+                  let price = d[o].stPrice.lastPrice.replace(',','');
                   return {
                     optionChain: o,
-                    price: e.strikePrice,
-                    rsi: d[o].rsi.value,
+                    strikePrice: e.strikePrice,
+                    rsi: parseFloat(d[o].rsi.value).toFixed(2),
                     premium: e.poLTP,
                     volume: e.poVolume,
                     precentage: (e.poLTP/(e.strikePrice/100)).toFixed(2),
                     expiry: d[o].expiryDate,
+                    lastPrice: price,
+                    companyName: d[o].stPrice.companyName,
+                    diffPercentage: ( (price - e.strikePrice) / (price/100) ).toFixed(2) 
                   }
                 }
             })).subscribe(
@@ -161,19 +191,15 @@ export class AnalyserComponent implements OnInit {
     });
   }
 
-  getStockPrice() {
-    let configUrl = "https://www1.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?symbol=ITC";
-    return this.http.get(configUrl).subscribe((data) => {
-     console.log(data); 
-    },(err) => {
-      console.log(err)
-    });
-  }
-
   onGridReady(params: any) {
     this.gridApi = params.api;
-    //this.gridApi.sizeColumnsToFit();
-    this.gridApi.setHeaderHeight(20);
+    if(screen.width <= 450 ){
+      this.gridApi.setHeaderHeight(20);
+    } else {
+      this.gridApi.setHeaderHeight();
+      this.gridApi.sizeColumnsToFit();
+    }
+    
     this.gridColumnApi = params.columnApi;
   }
 
