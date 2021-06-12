@@ -1,8 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
-import { from } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { from, of, throwError } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { FetchOptionsService } from '../services/fetch-options.service';
 import { FirebaseService } from '../services/firebase.service';
 
@@ -41,7 +42,8 @@ export class AnalyserComponent implements OnInit {
     private fetchOptionsService : FetchOptionsService,
     private router: Router,
     private primengConfig: PrimeNGConfig,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private http: HttpClient,
     ) { 
       this.columnDefs = [
         {
@@ -123,6 +125,9 @@ export class AnalyserComponent implements OnInit {
     }
 
   ngOnInit(): void { 
+
+    this.getStockPrice();
+
     this.primengConfig.ripple = true;
 
     this.fetchOptionsService.getOptions().subscribe((d:any) => {
@@ -156,11 +161,22 @@ export class AnalyserComponent implements OnInit {
     });
   }
 
+  getStockPrice() {
+    let configUrl = "https://www1.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?symbol=ITC";
+    return this.http.get(configUrl).subscribe((data) => {
+     console.log(data); 
+    },(err) => {
+      console.log(err)
+    });
+  }
+
   onGridReady(params: any) {
     this.gridApi = params.api;
     //this.gridApi.sizeColumnsToFit();
     this.gridApi.setHeaderHeight(20);
     this.gridColumnApi = params.columnApi;
   }
+
+
 
 }
