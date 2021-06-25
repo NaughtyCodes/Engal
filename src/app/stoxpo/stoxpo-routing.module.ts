@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AnalyserComponent } from './analyser/analyser.component';
+import { OptionAnalyserComponent } from './option-analyser/optoin-analyser.component';
 import { CrudstoxpoComponent } from './crud-stoxpo/crud-stoxpo.component';
 import { IndetailsComponent } from './indetails/indetails.component';
 import { stoxpoHomeComponent } from './stoxpo-home/stoxpo-home.component';
@@ -12,8 +12,8 @@ const routes: Routes = [
     component: IndetailsComponent,
   },
   {
-    path: 'a',
-    component: AnalyserComponent,
+    path: 'opts/:tabIndex',
+    component: OptionAnalyserComponent,
   },
   {
     path: 'details/:mfId',

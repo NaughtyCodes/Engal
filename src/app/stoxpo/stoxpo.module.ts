@@ -22,7 +22,7 @@ import { MessagesModule } from 'primeng/messages';
 import { DialogModule } from 'primeng/dialog';
 import { CalendarModule } from 'primeng/calendar';
 import { AppCommonModule } from '../common/app-common.module';
-import { AnalyserComponent } from './analyser/analyser.component';
+import { OptionAnalyserComponent } from './option-analyser/optoin-analyser.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,7 @@ import { AnalyserComponent } from './analyser/analyser.component';
     ButtonRendererComponent,
     CrudstoxpoComponent,
     WatchListComponent,
-    AnalyserComponent,
+    OptionAnalyserComponent,
   ],
   imports: [
     CommonModule,

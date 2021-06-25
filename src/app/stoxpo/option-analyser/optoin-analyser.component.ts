@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { from, of, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -8,11 +8,11 @@ import { FetchOptionsService } from '../services/fetch-options.service';
 import { FirebaseService } from '../services/firebase.service';
 
 @Component({
-  selector: 'app-analyser',
-  templateUrl: './analyser.component.html',
-  styleUrls: ['./analyser.component.scss']
+  selector: 'app-option-analyser',
+  templateUrl: './optoin-analyser.component.html',
+  styleUrls: ['./optoin-analyser.component.scss']
 })
-export class AnalyserComponent implements OnInit {
+export class OptionAnalyserComponent implements OnInit {
 
   gridApi: any;
   gridColumnApi: any;
@@ -26,8 +26,13 @@ export class AnalyserComponent implements OnInit {
   gridOptions = {};
   t: any[] = [];
   preValue: any;
+  activeTabIndex: number;
   changeFlag: boolean = false;
   firstCounter: boolean = true;
+  isNextMonthData: boolean = true;
+  isLastMonthData: boolean = false;
+  isOptInfo: boolean = false;
+  isAllFundsTab: boolean = false;
 
   defaultColDef = {
     width: screen.width <= 450 ? 80 : 120,
@@ -40,11 +45,17 @@ export class AnalyserComponent implements OnInit {
 
   constructor(
     private fetchOptionsService : FetchOptionsService,
+    private route: ActivatedRoute,
     private router: Router,
     private primengConfig: PrimeNGConfig,
     private firebaseService: FirebaseService,
     private http: HttpClient,
     ) { 
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.activeTabIndex = this.route.snapshot.params['tabIndex'];
+      if(this.activeTabIndex){
+        this.onChangeTab({index:this.activeTabIndex});
+      }
 
       const numberSort = (num1: number, num2: number) => {
         return num1 - num2;
@@ -203,6 +214,20 @@ export class AnalyserComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
   }
 
-
+  onChangeTab($event: any) {
+    //console.log('changing tab:'+$event.originalEvent.currentTarget.innerText);
+    let tabIndex = parseInt($event.index);
+    if(tabIndex === 0){
+      this.isNextMonthData = true;
+    } else if(tabIndex === 1){
+      this.isLastMonthData = true;
+    } else if(tabIndex === 2){
+      this.isAllFundsTab = true;
+    } else if(tabIndex === 3){
+      this.isOptInfo = true;
+    } else {
+      this.isNextMonthData = true;
+    }
+  }
 
 }
