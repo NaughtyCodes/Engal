@@ -1,6 +1,25 @@
 <!-- <p-button icon="pi pi-chevron-left" (click)="goBack()"></p-button> -->
 
 <p-tabView  [(activeIndex)]="activeTabIndex" (onChange)="onChangeTab($event);" class="option-analyser" style="">
+    <p-tabPanel header="CUR-M">
+            <ng-template [ngIf]="isCurrentMonthData">
+            <div>
+                <ag-grid-angular 
+                    style="width: 100%; height: 75vh; overflow-x: hidden;" 
+                    class="ag-theme-alpine" 
+                    [rowData]="rowData"
+                    [columnDefs]="columnDefs"
+                    [defaultColDef]="defaultColDef" 
+                    [rowHeight]="rowHeight" 
+                    [headerHeight]="" 
+                    (gridOptions)="gridOptions"
+                    (gridReady)="onGridReady($event)" 
+                    [suppressHorizontalScroll]=false
+                    [suppressDragLeaveHidesColumns]=true>
+                </ag-grid-angular>
+            </div>
+        </ng-template>
+    </p-tabPanel>  
     <p-tabPanel header="NXT-M">
         <ng-template [ngIf]="isNextMonthData">
             <div>
@@ -39,11 +58,13 @@
             </div>
         </ng-template>
     </p-tabPanel>
+<!--
     <p-tabPanel header="ALL-SYM">
         <ng-template [ngIf]="isAllFundsTab">
             
         </ng-template>
     </p-tabPanel>
+-->
     <p-tabPanel header="OT-INFO">
         <ng-template [ngIf]="isOptInfo">
         </ng-template>
