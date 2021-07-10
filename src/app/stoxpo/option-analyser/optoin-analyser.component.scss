@@ -21,5 +21,28 @@
     padding: 2px !important;
   }
 }
+
   //----------------
+  @media screen and (max-width:2000px) { 
+    :host ::ng-deep .ag-row {
+      font-size: 1em !important;
+      height: 23px !important;
+    }
+    
+  :host ::ng-deep .ag-header-cell-text {
+      font-size: 1em !important;
+    }
+    
+  :host ::ng-deep .ag-cell {
+      line-height: unset !important;
+    }
+    
+  :host ::ng-deep .ag-theme-alpine .ag-cell, .ag-theme-alpine .ag-full-width-row .ag-cell-wrapper.ag-row-group {
+      padding: 2px !important;
+    }
+    
+  :host ::ng-deep .ag-theme-alpine .ag-header-cell, .ag-theme-alpine .ag-header-group-cell {
+      padding: 2px !important;
+    }
+  }
   

@@ -37,9 +37,10 @@ export class OptionAnalyserComponent implements OnInit {
   isAllFundsTab: boolean = false;  
   fileName: any;
   fetchMonthKey: string = 'NEXT';
+  screenWidth = screen.width;
 
   defaultColDef = {
-    width: screen.width <= 450 ? 80 : 120,
+    width: this.screenWidth<= 450 ? 80 : 130,
     sortable: true,
     editable: false,
     resizable: false,
@@ -55,6 +56,7 @@ export class OptionAnalyserComponent implements OnInit {
     private firebaseService: FirebaseService,
     private http: HttpClient,
     ) { 
+      this.screenWidth = screen.width;
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
       this.activeTabIndex = this.route.snapshot.params['tabIndex'];
       if(this.activeTabIndex){
@@ -71,6 +73,7 @@ export class OptionAnalyserComponent implements OnInit {
           headerName: 'EQ',
           filter: 'agTextColumnFilter',
           floatingFilter: true,
+          width: this.screenWidth<= 450 ? 80 : 160,
           cellStyle: (params: any) => {
             if(this.firstCounter){
               this.firstCounter = false;
@@ -177,7 +180,7 @@ export class OptionAnalyserComponent implements OnInit {
           headerName: 'VOL',
           filter: 'agTextColumnFilter',
           floatingFilter: true,
-          width: 80,
+          width: this.screenWidth<= 450 ? 80 : 120,
           comparator: numberSort,
         }, 
         {
@@ -188,7 +191,7 @@ export class OptionAnalyserComponent implements OnInit {
           filter: 'agTextColumnFilter',
           hide: false,
           floatingFilter: true,
-          width: screen.width <= 450 ? 80 : 120,
+          width: this.screenWidth<= 450 ? 80 : 130,
         }
       ];
   
@@ -201,15 +204,16 @@ export class OptionAnalyserComponent implements OnInit {
 
   onGridReady(params: any) {
     this.gridApi = params.api;
-    if(screen.width <= 450 ){
+    if(this.screenWidth<= 450 ){
       this.gridApi.setHeaderHeight(20);
     } else {
-      this.gridApi.setHeaderHeight();
+   
       this.gridApi.sizeColumnsToFit();
     }
-    
     this.gridColumnApi = params.columnApi;
   }
+
+
 
   onChangeTab($event: any) {
     //console.log('changing tab:'+$event.originalEvent.currentTarget.innerText);
@@ -311,10 +315,10 @@ export class OptionAnalyserComponent implements OnInit {
         }
       } 
       this.rowData = this.t;
-      if(screen.width <= 450 ){
+      if(this.screenWidth<= 450 ){
         this.gridApi.setHeaderHeight(20);
       } else {
-        this.gridApi.setHeaderHeight();
+        //this.gridApi.setHeaderHeight(10);
         this.gridApi.sizeColumnsToFit();
       }
     });
