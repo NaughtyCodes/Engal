@@ -1,0 +1,10 @@
+@media screen and (max-width:450px) { 
+
+}
+
+@media screen and (max-width:2000px) { 
+    :host ::ng-deep .p-button {
+      padding: 0rem 0.6rem !important;
+      margin-left: 0.5em !important;
+    }
+  }

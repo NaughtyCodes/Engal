@@ -73,7 +73,7 @@ export class OptionAnalyserComponent implements OnInit {
           headerName: 'EQ',
           filter: 'agTextColumnFilter',
           floatingFilter: true,
-          width: this.screenWidth<= 450 ? 80 : 160,
+          width: this.screenWidth<= 450 ? 100 : 160,
           cellStyle: (params: any) => {
             if(this.firstCounter){
               this.firstCounter = false;
@@ -142,7 +142,8 @@ export class OptionAnalyserComponent implements OnInit {
         {
           field: 'rsi',
           headerName: 'RSI',
-          filter: 'agTextColumnFilter',
+          filter: 'agNumberColumnFilter',
+          type: 'lessThanOrEqual',
           wrapText: true,
           autoHeight: true,
           floatingFilter: true,
@@ -180,7 +181,7 @@ export class OptionAnalyserComponent implements OnInit {
           headerName: 'VOL',
           filter: 'agTextColumnFilter',
           floatingFilter: true,
-          width: this.screenWidth<= 450 ? 80 : 120,
+          width: this.screenWidth<= 450 ? 80 : 100,
           comparator: numberSort,
         }, 
         {
@@ -191,7 +192,7 @@ export class OptionAnalyserComponent implements OnInit {
           filter: 'agTextColumnFilter',
           hide: false,
           floatingFilter: true,
-          width: this.screenWidth<= 450 ? 80 : 130,
+          width: this.screenWidth<= 450 ? 80 : 100,
         }
       ];
   

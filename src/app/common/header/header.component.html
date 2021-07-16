@@ -1,12 +1,17 @@
-<p-menubar class="heading-menubar" [model]="items">
-    <div>
+<p-menubar class="heading-menubar" >
+    <div class="heading-items">
+        <p class="logo-name">ENGAL</p>
+        <img class="logo-img" style="" src="./assets/icons/icon-192x192.png">
         <input class="heading-search" type="text" pInputText placeholder="Search">
-        <button class="fullmenu" type="button" (click)="visibleSidebar5 = true" icon="pi pi-th-large" pButton style="margin-left:.25em"></button>
+        <button class="fullmenu" type="button" (click)="visibleSidebar5 = true" icon="pi pi-th-large" pButton style="margin-left:.25em; color: unset;"></button>       
     </div>
 </p-menubar>
 
 <p-sidebar [(visible)]="visibleSidebar5" [fullScreen]="true" [baseZIndex]="10000">
-    <h1 style="font-weight:normal">Full Screen Sidebar</h1>
-    <p-button type="button" (click)="visibleSidebar5 = false" label="Save" styleClass="p-button-success"></p-button>
-    <p-button type="button" (click)="visibleSidebar5 = false" label="Cancel" styleClass="p-button-secondary"></p-button>
+    <h1 style="font-weight:normal">ENGAL (The World Of Numbers)</h1>
+    <div class="">
+        <p-button (onClick)="home($event)" icon="pi pi-home"  label="HOME" styleClass="footer-buttons p-button-outlined p-mr-2" gclass="p-mr-2" pTooltip="Home"></p-button>
+        <p-button  (onClick)="mutualFunds($event)" icon="pi pi-sliders-v" label="M-FS" styleClass="footer-buttons p-button-outlined p-mr-2" pTooltip="Mutual Funds"></p-button>
+        <p-button (onClick)="options($event)" icon="pi pi-step-forward" label="OPTS" styleClass="footer-buttons p-button-outlined" pTooltip="Options"></p-button>
+    </div>
 </p-sidebar>

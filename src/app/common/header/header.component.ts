@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,7 @@ export class HeaderComponent implements OnInit {
   visibleSidebar5: any;
   
 
-  constructor() { }
+  constructor(private router: Router) {  }
 
   ngOnInit(): void {
 
@@ -19,6 +20,18 @@ export class HeaderComponent implements OnInit {
   
   ];
 
+  }
+
+  home($event: any){
+    this.router.navigate(['/opts/0', {}]);
+  }
+
+  mutualFunds($event: any){
+    this.router.navigate(['/stoxpo', {}]);;
+  }
+
+  options($event: any){
+    this.router.navigate(['/opts/1', {}]);
   }
 
 }

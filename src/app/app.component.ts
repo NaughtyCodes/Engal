@@ -11,17 +11,21 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 })
 export class AppComponent implements OnInit {
   title = 'Engal';
-  screenHight: number = 768;
+  screenHeight: any = '768px';
+  footerMargin: any = '740px';
+  mainAreaHeight: any = '768px';
 
   constructor(@Inject(DOCUMENT) private _document: HTMLDocument) {
-    this.screenHight = screen.height;
+    this.screenHeight = (screen.height)+'px';
+    this.mainAreaHeight = (screen.width < 450 ? screen.height - 100 : screen.height - 250)+'px';
+    this.footerMargin = '';
   }
 
   ngOnInit(): void {}
 
   ngAfterViewInit() {
     //console.log((screen.height+((screen.height/100)*10))+'px');
-    //(document.querySelector('.main-area') as HTMLElement).style.height = (screen.height+((screen.height/100)*3))+'px';
+    //(document.querySelector('.footer-menubar) as HTMLElement).style['margin-top = (screen.height-30)
   }
 
 }
