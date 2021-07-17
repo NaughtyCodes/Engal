@@ -1,7 +1,7 @@
 @media screen and (max-width:450px) { 
 
     :host ::ng-deep .logo-img {
-        display: inline-flex;
+        display: none;
         height: 2.6rem;
         float: left;
         margin-right: 4rem;

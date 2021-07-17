@@ -99,7 +99,9 @@ svg text {
 }
 
 @media screen and (max-width:450px) { 
-
+  .p-tabview  {
+    margin: 10px 0 0 0 !important;
+  }
 }
 
 @media screen and (max-width:2000px) { 
