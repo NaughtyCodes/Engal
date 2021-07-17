@@ -8,7 +8,8 @@
     }
 
     :host ::ng-deep .logo-name {
-        display: none;
+        font-size: 2em;
+        margin-right: 14.5rem;
     }
 
     
@@ -35,9 +36,13 @@
     }
 
     :host ::ng-deep .logo-name {
-        margin-right: 62rem;
-        display: inline;
-        font-size: 1.2em;
+        font-size: 2em; 
+        margin-right:41.5em;
+    }
+
+    :host ::ng-deep .heading-items{
+        
+        display: inline-flex;
     }
 
 }
